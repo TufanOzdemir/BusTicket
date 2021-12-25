@@ -5,29 +5,9 @@ using System.Runtime.Serialization;
 
 namespace Tufan.TicketApi.Client.Models
 {
-    [DataContract]
-    public class GetBusJourneyRequest 
-    {
-        /// <summary>
-        /// Gets or Sets Date
-        /// </summary>
-        [DataMember(Name = "date", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "date")]
-        public string Date { get; set; }        
-        /// <summary>
-        /// Gets or Sets Language
-        /// </summary>
-        [DataMember(Name = "language", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "language")]
-        public string Language { get; set; }        
-        /// <summary>
-        /// Gets or Sets Data
-        /// </summary>
-        [DataMember(Name = "data", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "data")]
-        public JourneyDataRequest Data { get; set; }        
-    }
-
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public class BadRequestErrorResponse 
     {
@@ -50,6 +30,9 @@ namespace Tufan.TicketApi.Client.Models
         [JsonProperty(PropertyName = "errorMessage")]
         public string ErrorMessage { get; set; }        
     }
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public class Stop 
     {
@@ -84,29 +67,9 @@ namespace Tufan.TicketApi.Client.Models
         [JsonProperty(PropertyName = "isDestination")]
         public bool IsDestination { get; set; }        
     }
-    [DataContract]
-    public class JourneyDataRequest 
-    {
-        /// <summary>
-        /// Gets or Sets OriginId
-        /// </summary>
-        [DataMember(Name = "originId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "originId")]
-        public int OriginId { get; set; }        
-        /// <summary>
-        /// Gets or Sets DestinationId
-        /// </summary>
-        [DataMember(Name = "destinationId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "destinationId")]
-        public int DestinationId { get; set; }        
-        /// <summary>
-        /// Gets or Sets DepartureDate
-        /// </summary>
-        [DataMember(Name = "departureDate", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "departureDate")]
-        public string DepartureDate { get; set; }        
-    }
-    
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public class Policy 
     {
@@ -153,6 +116,9 @@ namespace Tufan.TicketApi.Client.Models
         [JsonProperty(PropertyName = "lht")]
         public bool Lht { get; set; }        
     }
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public class BadRequestErrorItemModel 
     {
@@ -181,6 +147,9 @@ namespace Tufan.TicketApi.Client.Models
         [JsonProperty(PropertyName = "errorCode")]
         public string ErrorCode { get; set; }        
     }
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public class Journey 
     {
@@ -293,6 +262,82 @@ namespace Tufan.TicketApi.Client.Models
         [JsonProperty(PropertyName = "available")]
         public Object Available { get; set; }        
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    [DataContract]
+    public class BusLocation 
+    {
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "id")]
+        public int Id { get; set; }        
+        /// <summary>
+        /// Gets or Sets ParentId
+        /// </summary>
+        [DataMember(Name = "parentId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "parentId")]
+        public int ParentId { get; set; }        
+        /// <summary>
+        /// Gets or Sets Type
+        /// </summary>
+        [DataMember(Name = "type", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }        
+        /// <summary>
+        /// Gets or Sets Name
+        /// </summary>
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }        
+        /// <summary>
+        /// Gets or Sets GeoLocation
+        /// </summary>
+        [DataMember(Name = "geoLocation", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "geoLocation")]
+        public GeoLocation GeoLocation { get; set; }        
+        /// <summary>
+        /// Gets or Sets Zoom
+        /// </summary>
+        [DataMember(Name = "zoom", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "zoom")]
+        public int? Zoom { get; set; }        
+        /// <summary>
+        /// Gets or Sets TzCode
+        /// </summary>
+        [DataMember(Name = "tzCode", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "tzCode")]
+        public string TzCode { get; set; }        
+        /// <summary>
+        /// Gets or Sets WeatherCode
+        /// </summary>
+        [DataMember(Name = "weatherCode", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "weatherCode")]
+        public string WeatherCode { get; set; }        
+        /// <summary>
+        /// Gets or Sets Rank
+        /// </summary>
+        [DataMember(Name = "rank", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "rank")]
+        public int? Rank { get; set; }        
+        /// <summary>
+        /// Gets or Sets ReferenceCode
+        /// </summary>
+        [DataMember(Name = "referenceCode", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "referenceCode")]
+        public string ReferenceCode { get; set; }        
+        /// <summary>
+        /// Gets or Sets Keywords
+        /// </summary>
+        [DataMember(Name = "keywords", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "keywords")]
+        public string Keywords { get; set; }        
+    }
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public class ErrorResponse 
     {
@@ -309,6 +354,34 @@ namespace Tufan.TicketApi.Client.Models
         [JsonProperty(PropertyName = "errorMessage")]
         public string ErrorMessage { get; set; }        
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    [DataContract]
+    public class GeoLocation 
+    {
+        /// <summary>
+        /// Gets or Sets Latitude
+        /// </summary>
+        [DataMember(Name = "latitude", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "latitude")]
+        public double? Latitude { get; set; }        
+        /// <summary>
+        /// Gets or Sets Longitude
+        /// </summary>
+        [DataMember(Name = "longitude", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "longitude")]
+        public double? Longitude { get; set; }        
+        /// <summary>
+        /// Gets or Sets Zoom
+        /// </summary>
+        [DataMember(Name = "zoom", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "zoom")]
+        public int? Zoom { get; set; }        
+    }
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public class BusJourney 
     {
@@ -475,6 +548,9 @@ namespace Tufan.TicketApi.Client.Models
         [JsonProperty(PropertyName = "displayCouponCodeInput")]
         public bool DisplayCouponCodeInput { get; set; }        
     }
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public class Feature 
     {
