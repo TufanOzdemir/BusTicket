@@ -35,6 +35,22 @@ namespace Tufan.Common.Authentication
             }
         }
 
+        public virtual string DeviceId
+        {
+            get
+            {
+                return GetClaim(ClaimTypes.Authentication);
+            }
+        }
+
+        public virtual string SessionId
+        {
+            get
+            {
+                return GetClaim(ClaimTypes.SerialNumber);
+            }
+        }
+
         public virtual IIdentity Identity
         {
             get

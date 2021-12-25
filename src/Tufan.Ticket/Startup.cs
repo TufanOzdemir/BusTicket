@@ -10,18 +10,23 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
 using System.Linq;
+using System.Net.Http;
 using Tufan.Common.Abstraction;
+using Tufan.Common.Authentication;
 using Tufan.Common.Configuration;
 using Tufan.Common.Extension;
+using Tufan.Common.Http;
 using Tufan.Common.Localization;
 using Tufan.Common.Logging;
 using Tufan.Common.Validation;
+using Tufan.ExternalServices.ObiletApi;
 using Tufan.Ticket.Application;
 using Tufan.Ticket.Domain;
 using Tufan.Ticket.Domain.Persistance;
 using Tufan.Ticket.Infrastructure;
 using Tufan.Ticket.Infrastructure.Repository;
 using Tufan.Ticket.Middlewares;
+using Tufan.Ticket.Providers;
 
 namespace Tufan.Ticket
 {
@@ -38,14 +43,23 @@ namespace Tufan.Ticket
         {
             AddValidation(services);
             AddLogging(services);
-            AddConfiguration(services);
-            AddCustom(services);
+            AddConfigurationAndAuthentication(services);
             AddMediatr(services);
             AddMapper(services);
             AddSwagger(services);
             //AddCache(services);
             AddLocalization(services);
             AddDomainServices(services);
+            AddExternalServices(services);
+        }
+
+        private void AddExternalServices(IServiceCollection services)
+        {
+            services.AddTransient<HttpMethodCreator>();
+            services.AddScoped<ITokenProvider, TokenProvider>();
+            services.AddScoped<ObiletApi>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<HttpClient>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -62,6 +76,7 @@ namespace Tufan.Ticket
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -73,7 +88,7 @@ namespace Tufan.Ticket
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tufan.Ticket API V1");
             });
-            
+
             app.UseStaticFiles();
             app.Use(async (ctx, next) =>
             {
@@ -126,13 +141,14 @@ namespace Tufan.Ticket
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
 
-        private void AddConfiguration(IServiceCollection services)
+        private void AddConfigurationAndAuthentication(IServiceCollection services)
         {
-            services.AddSingleton<IConfigResolver, ConfigResolver>();
-        }
-        private void AddCustom(IServiceCollection services)
-        {
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            IConfigResolver configResolver = new ConfigResolver(Configuration);
+            var urlConfig = configResolver.Resolve<UrlConfig>();
+
+            services.AddSingleton(urlConfig);
+            services.AddSingleton(configResolver);
+            services.AddSecurity(configResolver);
         }
         private void AddMediatr(IServiceCollection services)
         {
@@ -148,7 +164,7 @@ namespace Tufan.Ticket
             foreach (var domainService in domainServices)
                 services.AddScoped(domainService);
 
-            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<IJourneyRepository, JourneyRepository>();
         }
         private void AddMapper(IServiceCollection services)
         {
@@ -164,6 +180,24 @@ namespace Tufan.Ticket
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tufan.Ticket API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer",
+                       new OpenApiSecurityScheme
+                       {
+                           Name = "Authorization",
+                           Type = SecuritySchemeType.ApiKey,
+                           Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                           In = ParameterLocation.Header
+                       });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                        },
+                        new[] { "" }
+                    }
+                });
             });
         }
     }

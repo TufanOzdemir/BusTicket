@@ -9,6 +9,8 @@ namespace Tufan.Common.Authentication
     public interface IDomainPrincipal : IPrincipal
     {
         string AccessToken { get; }
+        string DeviceId { get; }
+        string SessionId { get; }
         IEnumerable<Claim> Claims { get; }
         bool IsInScheme(string schemes);
         Task<bool> Validate();

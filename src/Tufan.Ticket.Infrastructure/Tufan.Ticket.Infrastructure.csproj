@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tufan.ExternalServices.ObiletApi\Tufan.ExternalServices.ObiletApi.csproj" />
     <ProjectReference Include="..\Tufan.Ticket.Domain\Tufan.Ticket.Domain.csproj" />
   </ItemGroup>
 
