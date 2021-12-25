@@ -17,5 +17,6 @@ namespace Tufan.Common.Configuration
         public string BadRequestMessage { get; set; }
         public string GeneralMessage { get; set; }
         public string UnhandledMessage { get; set; }
+        public string ExternalMessage { get; set; }
     }
 }

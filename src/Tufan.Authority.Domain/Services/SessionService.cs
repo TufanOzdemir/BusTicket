@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Tufan.Authority.Domain.Model.Entity;
 using Tufan.Authority.Domain.Model.Request;
 using Tufan.Authority.Domain.Persistance;
+using Tufan.Authority.Domain.Token;
 using Tufan.Common.Abstraction;
 
 namespace Tufan.Authority.Domain.Services
@@ -11,16 +12,19 @@ namespace Tufan.Authority.Domain.Services
     {
         private readonly ISessionRepository _sessionRepository;
         private readonly IMediator _mediator;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public SessionService(ISessionRepository sessionRepository, IMediator mediator)
+        public SessionService(ISessionRepository sessionRepository, IMediator mediator, ITokenGenerator tokenGenerator)
         {
             _sessionRepository = sessionRepository;
             _mediator = mediator;
+            _tokenGenerator = tokenGenerator;
         }
 
-        public Task<Session> GetSession(SessionRequest request)
+        public async Task<string> GetSession(SessionRequest request)
         {
-            return _sessionRepository.GetSession(request);
+            var model = await _sessionRepository.GetSession(request);
+            return _tokenGenerator.GetToken(model);
         }
     }
 }

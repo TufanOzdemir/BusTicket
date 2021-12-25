@@ -1,15 +1,3 @@
-using Tufan.Authority.Application;
-using Tufan.Authority.Domain;
-using Tufan.Authority.Domain.Persistance;
-using Tufan.Authority.Infrastructure;
-using Tufan.Authority.Infrastructure.Repository;
-using Tufan.Authority.Middlewares;
-using Tufan.Common.Abstraction;
-using Tufan.Common.Configuration;
-using Tufan.Common.Extension;
-using Tufan.Common.Localization;
-using Tufan.Common.Logging;
-using Tufan.Common.Validation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -22,10 +10,24 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
 using System.Linq;
-using Tufan.ExternalServices.ObiletApi;
-using Tufan.Common.Http;
-using Tufan.Authority.Providers;
 using System.Net.Http;
+using Tufan.Authority.Application;
+using Tufan.Authority.Domain;
+using Tufan.Authority.Domain.Persistance;
+using Tufan.Authority.Domain.Token;
+using Tufan.Authority.Infrastructure;
+using Tufan.Authority.Infrastructure.Repository;
+using Tufan.Authority.Middlewares;
+using Tufan.Authority.Providers;
+using Tufan.Common.Abstraction;
+using Tufan.Common.Authentication;
+using Tufan.Common.Configuration;
+using Tufan.Common.Extension;
+using Tufan.Common.Http;
+using Tufan.Common.Localization;
+using Tufan.Common.Logging;
+using Tufan.Common.Validation;
+using Tufan.ExternalServices.ObiletApi;
 
 namespace Tufan.Authority
 {
@@ -42,8 +44,7 @@ namespace Tufan.Authority
         {
             AddValidation(services);
             AddLogging(services);
-            AddConfiguration(services);
-            AddCustom(services);
+            AddConfigurationAndAuthentication(services);
             AddMediatr(services);
             AddMapper(services);
             AddSwagger(services);
@@ -55,8 +56,8 @@ namespace Tufan.Authority
 
         private void AddExternalServices(IServiceCollection services)
         {
-            services.AddSingleton<HttpMethodCreator>();
-            services.AddSingleton<ITokenProvider, TokenProvider>();
+            services.AddTransient<HttpMethodCreator>();
+            services.AddScoped<ITokenProvider, TokenProvider>();
             services.AddScoped<ObiletApi>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<HttpClient>();
@@ -140,17 +141,15 @@ namespace Tufan.Authority
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
 
-        private void AddConfiguration(IServiceCollection services)
+        private void AddConfigurationAndAuthentication(IServiceCollection services)
         {
             IConfigResolver configResolver = new ConfigResolver(Configuration);
             var urlConfig = configResolver.Resolve<UrlConfig>();
 
             services.AddSingleton(urlConfig);
             services.AddSingleton(configResolver);
-        }
-        private void AddCustom(IServiceCollection services)
-        {
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSecurity(configResolver);
+            services.AddScoped<ITokenGenerator, SymetricTokenGenerator>();
         }
         private void AddMediatr(IServiceCollection services)
         {

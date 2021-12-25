@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Tufan.Common.Configuration;
 using Tufan.Common.Exception;
 
 namespace Tufan.Common.Http
@@ -11,11 +12,13 @@ namespace Tufan.Common.Http
     {
         private readonly ITokenProvider _token;
         private readonly HttpClient _httpClient;
+        private readonly UrlConfig _urlConfig;
 
-        public HttpMethodCreator(ITokenProvider token, HttpClient httpClient)
+        public HttpMethodCreator(ITokenProvider token, HttpClient httpClient, UrlConfig urlConfig)
         {
             _token = token;
             _httpClient = httpClient;
+            _urlConfig = urlConfig;
         }
 
         public async Task<T> Get<T>(string url)
@@ -23,6 +26,7 @@ namespace Tufan.Common.Http
             try
             {
                 SetHeader();
+
                 var response = await _httpClient.GetAsync(url);
                 var responseReceived = await response.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<T>(responseReceived);
@@ -40,10 +44,12 @@ namespace Tufan.Common.Http
             try
             {
                 SetHeader();
+
                 var myContent = JsonConvert.SerializeObject(model);
                 var buffer = Encoding.UTF8.GetBytes(myContent);
                 var byteContent = new ByteArrayContent(buffer);
                 byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
                 var response = await _httpClient.PostAsync(url, byteContent);
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var content = JsonConvert.DeserializeObject<T>(responseContent);

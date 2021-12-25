@@ -57,6 +57,10 @@ namespace Tufan.Authority.Middlewares
             {
                 await HandleNotFoundException(httpContext, notFoundException);
             }
+            catch (RestRequestException ex)
+            {
+                await HandleExternalException(httpContext, ex);
+            }
             catch(Exception ex)
             {
                 await HandleGeneralException(httpContext, ex);
@@ -119,6 +123,16 @@ namespace Tufan.Authority.Middlewares
         public async Task HandleGeneralException(HttpContext httpContext, Exception ex)
         {
             var message = _exceptionConfig.Messages.GeneralMessage;
+
+            var response = new ErrorResponse(message);
+            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            httpContext.Response.ContentType = _exceptionConfig.ContentType;
+            await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(response));
+        }
+
+        private async Task HandleExternalException(HttpContext httpContext, RestRequestException externalException)
+        {
+            var message = _exceptionConfig.Messages.ExternalMessage;
 
             var response = new ErrorResponse(message);
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

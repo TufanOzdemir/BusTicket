@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Tufan.Authority.Domain.Model.Entity;
 using Tufan.Authority.Domain.Model.Request;
 
 namespace Tufan.Authority.Infrastructure.Mapping
@@ -10,6 +11,8 @@ namespace Tufan.Authority.Infrastructure.Mapping
             CreateMap<SessionRequest, ExternalServices.ObiletApi.Model.SessionRequest>().ReverseMap();
             CreateMap<ConnectionRequest, ExternalServices.ObiletApi.Model.ConnectionRequest>().ReverseMap();
             CreateMap<BrowserRequest, ExternalServices.ObiletApi.Model.BrowserRequest>().ReverseMap();
+
+            CreateMap<ExternalServices.ObiletApi.Model.SessionResponse, Session>().ReverseMap();
         }
     }
 }

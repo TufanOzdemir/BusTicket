@@ -6,12 +6,12 @@ using Tufan.Authority.Domain.Services;
 
 namespace Tufan.Authority.Application.Session.Query
 {
-    public class GetSessionQuery : SessionRequest, IRequest<Domain.Model.Entity.Session>
+    public class GetSessionQuery : SessionRequest, IRequest<string>
     {
 
     }
 
-    public class GetSessionQueryHandler : IRequestHandler<GetSessionQuery, Domain.Model.Entity.Session>
+    public class GetSessionQueryHandler : IRequestHandler<GetSessionQuery, string>
     {
         private readonly SessionService _sessionService;
 
@@ -20,7 +20,7 @@ namespace Tufan.Authority.Application.Session.Query
             _sessionService = sessionService;
         }
 
-        public Task<Domain.Model.Entity.Session> Handle(GetSessionQuery request, CancellationToken cancellationToken)
+        public Task<string> Handle(GetSessionQuery request, CancellationToken cancellationToken)
         {
             return _sessionService.GetSession(request);
         }
