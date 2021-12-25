@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tufan.Authority.Domain\Tufan.Authority.Domain.csproj" />
+    <ProjectReference Include="..\Tufan.ExternalServices.ObiletApi\Tufan.ExternalServices.ObiletApi.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Model\Config\**" />
+    <EmbeddedResource Remove="Model\Config\**" />
+    <None Remove="Model\Config\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tufan.Common\Tufan.Common.csproj" />
+  </ItemGroup>
+
+</Project>
