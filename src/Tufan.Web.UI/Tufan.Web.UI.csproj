@@ -9,4 +9,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.21" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tufan.AuthorityApi.Client\Tufan.AuthorityApi.Client.csproj" />
+    <ProjectReference Include="..\Tufan.Common\Tufan.Common.csproj" />
+    <ProjectReference Include="..\Tufan.TicketApi.Client\Tufan.TicketApi.Client.csproj" />
+  </ItemGroup>
+
 </Project>

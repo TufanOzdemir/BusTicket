@@ -335,6 +335,37 @@ namespace Tufan.TicketApi.Client.Models
         [JsonProperty(PropertyName = "keywords")]
         public string Keywords { get; set; }        
     }
+
+    public class GetBusJourneyRequest
+    {
+        public string Date { get; set; }
+        public string Language { get; set; }
+        public JourneyDataRequest Data { get; set; }
+    }
+
+    public class JourneyDataRequest
+    {
+        /// <summary>
+        /// Çýkýþ Noktasý
+        /// </summary>
+        public int OriginId { get; set; }
+        /// <summary>
+        /// Varýþ Noktasý
+        /// </summary>
+        public int DestinationId { get; set; }
+        /// <summary>
+        /// Çýkýþ Tarihi
+        /// </summary>
+        public string DepartureDate { get; set; }
+    }
+
+    public class GetBusLocationRequest
+    {
+        public string Date { get; set; }
+        public string Language { get; set; }
+        public string Data { get; set; }
+    }
+
     /// <summary>
     /// 
     /// </summary>

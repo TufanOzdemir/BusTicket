@@ -39,7 +39,7 @@ namespace Tufan.Common.Http
             }
         }
 
-        public async Task<T> Post<T>(string url, object model)
+        public async Task<string> Post(string url, object model)
         {
             try
             {
@@ -51,7 +51,19 @@ namespace Tufan.Common.Http
                 byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 var response = await _httpClient.PostAsync(url, byteContent);
-                var responseContent = await response.Content.ReadAsStringAsync();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (System.Exception ex)
+            {
+                throw (RestRequestException)ex;
+            }
+        }
+
+        public async Task<T> Post<T>(string url, object model)
+        {
+            try
+            {
+                var responseContent = await Post(url, model);
                 var content = JsonConvert.DeserializeObject<T>(responseContent);
                 return content;
             }
