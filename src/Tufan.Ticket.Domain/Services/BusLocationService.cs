@@ -8,21 +8,21 @@ using Tufan.Ticket.Domain.Persistance;
 
 namespace Tufan.Ticket.Domain.Services
 {
-    public class JourneyService : ServiceBase, IDomainService
+    public class BusLocationService : ServiceBase, IDomainService
     {
-        private readonly IJourneyRepository _journeyRepository;
+        private readonly IBusLocationRepository _busLocationRepository;
         private readonly IDomainPrincipal _domainPrincipal;
 
-        public JourneyService(IJourneyRepository journeyRepository, IDomainPrincipal domainPrincipal) : base(domainPrincipal)
+        public BusLocationService(IBusLocationRepository busLocationRepository, IDomainPrincipal domainPrincipal) : base(domainPrincipal)
         {
-            _journeyRepository = journeyRepository;
+            _busLocationRepository = busLocationRepository;
             _domainPrincipal = domainPrincipal;
         }
 
-        public Task<List<BusJourney>> GetBusJourney(GetBusJourneyRequest request)
+        public Task<List<BusLocation>> GetBusLocation(GetBusLocationRequest request)
         {
             request.DeviceSession = FillRequestModel();
-            return _journeyRepository.GetBusJourney(request);
+            return _busLocationRepository.GetBusLocation(request);
         }
     }
 }

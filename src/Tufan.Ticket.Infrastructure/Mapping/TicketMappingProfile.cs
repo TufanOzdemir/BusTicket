@@ -18,6 +18,10 @@ namespace Tufan.Ticket.Infrastructure.Mapping
             CreateMap<PolicyResponse, Policy>();
             CreateMap<FeatureResponse, Feature>();
             CreateMap<JourneyResponse, Journey>();
+
+            CreateMap<GetBusLocationRequest, BusLocationRequest>();
+            CreateMap<BusLocationResponse, BusLocation>();
+            CreateMap<ExternalServices.ObiletApi.Model.GeoLocation, Domain.Model.Entity.GeoLocation>();
         }
     }
 }

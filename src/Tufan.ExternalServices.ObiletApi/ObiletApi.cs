@@ -29,5 +29,11 @@ namespace Tufan.ExternalServices.ObiletApi
             var result = await _httpMethodCreator.Post<Result<List<BusJourneyResponse>>>($"{_urlConfig.ObiletUrl}/api/journey/getbusjourneys", request);
             return result.Data;
         }
+
+        public async Task<List<BusLocationResponse>> GetBusLocation(BusLocationRequest request)
+        {
+            var result = await _httpMethodCreator.Post<Result<List<BusLocationResponse>>>($"{_urlConfig.ObiletUrl}/api/location/getbuslocations", request);
+            return result.Data;
+        }
     }
 }

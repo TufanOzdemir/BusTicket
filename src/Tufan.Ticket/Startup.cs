@@ -165,6 +165,7 @@ namespace Tufan.Ticket
                 services.AddScoped(domainService);
 
             services.AddScoped<IJourneyRepository, JourneyRepository>();
+            services.AddScoped<IBusLocationRepository, BusLocationRepository>();
         }
         private void AddMapper(IServiceCollection services)
         {
