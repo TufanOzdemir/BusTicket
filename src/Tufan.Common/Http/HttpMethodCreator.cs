@@ -29,9 +29,12 @@ namespace Tufan.Common.Http
 
                 var response = await _httpClient.GetAsync(url);
                 var responseReceived = await response.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<T>(responseReceived);
-
-                return data;
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var data = JsonConvert.DeserializeObject<T>(responseReceived);
+                    return data;
+                }
+                return default;
             }
             catch (System.Exception ex)
             {

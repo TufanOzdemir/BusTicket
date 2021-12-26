@@ -19,12 +19,13 @@ namespace Tufan.TicketApi.Client
 
         public async Task<List<BusJourney>> GetBusJourneys(GetBusJourneyRequest request)
         {
-            return await _httpMethodCreator.Get<List<BusJourney>>($"{_urlConfig.TicketUrl}/api/journey");
+            return await _httpMethodCreator.Get<List<BusJourney>>($"{_urlConfig.TicketUrl}/api/journey?Date={request.Date}&Language={request.Language}" +
+                $"&Data.OriginId={request.Data.OriginId}&Data.DestinationId={request.Data.DestinationId}&Data.DepartureDate={request.Data.DepartureDate}");
         }
 
         public async Task<List<BusLocation>> GetBusLocation(GetBusLocationRequest request)
         {
-            return await _httpMethodCreator.Get<List<BusLocation>>($"{_urlConfig.TicketUrl}/api/buslocation");
+            return await _httpMethodCreator.Get<List<BusLocation>>($"{_urlConfig.TicketUrl}/api/buslocation?Date={request.Date}&Language={request.Language}&Data={request.Data}");
         }
     }
 }

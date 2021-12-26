@@ -1,0 +1,47 @@
+﻿@model List<BusJourney>
+
+<br />
+<br />
+@foreach (var item in Model)
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <p class=text-danger>@item.PartnerName</p>
+                </div>
+                <div class="col-md-1">
+                    <p>@item.BusType</p>
+                </div>
+                <div class="col-md-1">
+                    <p>@item.Journey.Departure.ToShortTimeString()</p>
+                </div>
+                <div class="col-md-2">
+                    <p>@item.OriginLocation - @item.DestinationLocation</p>
+                </div>
+                
+                <div class="col-md-4">
+                    @{
+                        string title = "";
+                        @foreach (var item2 in item.Journey.Features)
+                        {
+                            title += @item2 + "\n";
+                        }
+                        <button type="button" class="btn btn-default btn-btn-block" data-toggle="tooltip" data-placement="right" title="@title"> @item.Journey.BusName</button>
+                    }
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger" data-placement="right" title="@title">@item.Journey.InternetPrice @item.Journey.Currency</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+}

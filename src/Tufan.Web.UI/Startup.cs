@@ -111,7 +111,12 @@ namespace Tufan.Web.UI
             app.UseRouting();
             app.UseSession();
             app.UseMiddleware<AuthenticationMiddleware>();
-
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

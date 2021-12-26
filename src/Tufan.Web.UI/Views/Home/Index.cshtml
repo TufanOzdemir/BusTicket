@@ -1,0 +1,49 @@
+﻿@model List<BusLocationViewModel>
+
+<form>
+    <div class="mb-12 text-center">
+        <h1>Otobüs Bileti Bak</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label for="formGroupExampleInput" class="form-label">Kalkış Noktası</label>
+            <div class="dropdown">
+                <input type="text" class="jAuto form-control"
+                       placeholder="Çıkış noktası" autocomplete="off">
+                <div class="dropdown-menu">
+                    <i class="hasNoResults">Sonuç bulunamadı</i>
+                    <div class="list-autocomplete">
+                        @foreach (var i in Model)
+                        {
+                            <button onclick="ButtonClick(@i.Id, true)" type="button" class="dropdown-item" id="@i.Id">@i.Keywords</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="formGroupExampleInput2" class="form-label">Varış Noktası</label>
+            <div class="dropdown">
+                <input type="text" class="jAuto form-control"
+                       placeholder="Varış noktası" autocomplete="off">
+                <div class="dropdown-menu">
+                    <i class="hasNoResults">Sonuç bulunamadı</i>
+                    <div class="list-autocomplete">
+                        @foreach (var i in Model)
+                        {
+                            <button onclick="ButtonClick(@i.Id, false)" type="button" class="dropdown-item" id="@i.Id">@i.Keywords</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Tarih</label>
+            <input class="form-control" type="date" id="date" name="date">
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <input type="button" class="btn btn-block btn-dark" value="Biletleri Listele" onclick="GetJourneys()" />
+    </div>
+</form>
